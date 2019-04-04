@@ -1,3 +1,5 @@
+//Código escrito em conjunto por Leonardo Izaú (@Vladek96) e Mariana Fortes (@MarianaFortes)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,46 +52,44 @@ void divide(FILE *f)
 	total += oit[0];
 	for(i = 1; i < 8; i++)
 	{
-	    oit[i] = ((qtd - total)/(8-i));
-	    total += oit[i];
+		oit[i] = ((qtd - total)/(8-i));
+		total += oit[i];
 	}
 	for(j = 0; j < 8; j++)
     	{
-	    sprintf(nomeArq, "cep_%d.dat", j);
-	    le_ordena(f, oit[j], nomeArq);
-    }
-
+		sprintf(nomeArq, "cep_%d.dat", j);
+		le_ordena(f, oit[j], nomeArq);
+	}
 }
 
 void intercala(FILE *a, FILE *b, FILE *saida)
 {
-    Endereco ea, eb;
-    fread(&ea,sizeof(Endereco),1,a);
-    fread(&eb,sizeof(Endereco),1,b);
-
-    while(!feof(a) && !feof(b))
-    {
-        if(compara(&ea,&eb)<0)
-        {
-            fwrite(&ea,sizeof(Endereco),1,saida);
-            fread(&ea,sizeof(Endereco),1,a);
-        }
-        else
-        {
-            fwrite(&eb,sizeof(Endereco),1,saida);
-            fread(&eb,sizeof(Endereco),1,b);
-        }
-    }
-    while(!feof(a))
-    {
-        fwrite(&ea,sizeof(Endereco),1,saida);
-        fread(&ea,sizeof(Endereco),1,a);
-    }
-    while(!feof(b))
-    {
-        fwrite(&eb,sizeof(Endereco),1,saida);
-        fread(&eb,sizeof(Endereco),1,b);
-    }
+	Endereco ea, eb;
+	fread(&ea,sizeof(Endereco),1,a);
+	fread(&eb,sizeof(Endereco),1,b);
+	while(!feof(a) && !feof(b))
+	{
+		if(compara(&ea,&eb)<0)
+        	{
+			fwrite(&ea,sizeof(Endereco),1,saida);
+			fread(&ea,sizeof(Endereco),1,a);
+        	}
+        	else
+		{
+			fwrite(&eb,sizeof(Endereco),1,saida);
+			fread(&eb,sizeof(Endereco),1,b);
+		}
+	}
+	while(!feof(a))
+	{
+		fwrite(&ea,sizeof(Endereco),1,saida);
+		fread(&ea,sizeof(Endereco),1,a);
+	}
+	while(!feof(b))
+	{
+		fwrite(&eb,sizeof(Endereco),1,saida);
+        	fread(&eb,sizeof(Endereco),1,b);
+	}
 	printf("Intercalado = OK\n");
 	fclose(a);
 	fclose(b);
@@ -98,28 +98,28 @@ void intercala(FILE *a, FILE *b, FILE *saida)
 
 void processa_intercala(FILE *f)
 {
-    FILE *a, *b, *saida;
-    int i, cont = 8;
-    char nomeArq [13];
-    for(i = 0; i < 14; i += 2)
-    {
-        sprintf(nomeArq, "cep%d.dat", i);
-        a = fopen(nomeArq, "r");
-        sprintf(nomeArq, "cep%d.dat", i+1);
-        b = fopen(nomeArq, "r");
-        if(cont < 14)
-        {
-            sprintf(nomeArq, "cep%d.dat", cont);
-            saida = fopen(nomeArq, "w");
-            intercala(a,b,saida);
-        }
-        if(cont == 14)
-        {
-            saida = fopen("cep_ordenado.dat", "w");
-            intercala(a,b,saida);
-        }
-        cont++;
-    }
+	FILE *a, *b, *saida;
+	int i, cont = 8;
+	char nomeArq [13];
+	for(i = 0; i < 14; i += 2)
+	{
+		sprintf(nomeArq, "cep%d.dat", i);
+		a = fopen(nomeArq, "r");
+		sprintf(nomeArq, "cep%d.dat", i+1);
+		b = fopen(nomeArq, "r");
+		if(cont < 14)
+		{
+			sprintf(nomeArq, "cep%d.dat", cont);
+			saida = fopen(nomeArq, "w");
+			intercala(a,b,saida);
+		}
+		if(cont == 14)
+		{
+			saida = fopen("cep_ordenado.dat", "w");
+			intercala(a,b,saida);
+		}
+		cont++;
+	}
 }
 
 void deletaPedacos()
@@ -136,11 +136,11 @@ void deletaPedacos()
 		else
 		{
 			fclose(f);
-		    int r = remove(nomeArq);
-		    if(r == 0)
-			    printf("\n%s removido = OK", nomeArq);
-		    else
-		        fprintf(stderr, "Arquivo nao foi removido\n");
+			int r = remove(nomeArq);
+			if(r == 0)
+				printf("\n%s removido = OK", nomeArq);
+			else
+				fprintf(stderr, "Arquivo nao foi removido\n");
 		}
 	}
 }
